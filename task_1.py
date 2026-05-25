@@ -15,13 +15,12 @@ class OnlineSalesRegisterCollector:
         return self.__number_items
     
     def add_item_to_cheque(self, name):
-
-            if len(name) == 0 or len(name)> 40:
-                raise ValueError('Нельзя добавить товар, если в его названии нет символов или их больше 40')
-            if name not in self.__item_price:
-                raise NameError('Позиция отсутствует в товарном справочнике')
-            self.__name_items.append(name)
-            self.__number_items += 1
+        if len(name) == 0 or len(name)> 40:
+            raise ValueError('Нельзя добавить товар, если в его названии нет символов или их больше 40')
+        if name not in self.__item_price:
+            raise NameError('Позиция отсутствует в товарном справочнике')
+        self.__name_items.append(name)
+        self.__number_items += 1
 
     def delete_item_from_check(self,name):
          if name not in self.__name_items:
@@ -49,7 +48,7 @@ class OnlineSalesRegisterCollector:
 
         nds = sum(total) * 0.2
 
-        if len(total) > 10:
+        if self.number_items > 10:
             sum_with_sale = sum(total) - (sum(total) * 0.1)  #общая сумма товаров со скидкой 10%
             nds_with_sale_20 =  sum_with_sale * 0.2 #20% ндс из суммы товаров со скидкой 10%
             return nds_with_sale_20
@@ -68,7 +67,7 @@ class OnlineSalesRegisterCollector:
 
         nds = sum(total) * 0.1
 
-        if len(total) > 10:
+        if self.number_items > 10:
             sum_with_sale = sum(total) - (sum(total) * 0.1)  #общая сумма товаров со скидкой 10%
             nds_with_sale =  sum_with_sale * 0.1 #ндс из суммы товаров со скидкой 10%
             return nds_with_sale
@@ -76,7 +75,7 @@ class OnlineSalesRegisterCollector:
             return nds
 
     def total_tax(self):
-        return self.twenty_percent_tax_calculation + self.ten_percent_tax_calculation
+        return self.twenty_percent_tax_calculation(self) + self.ten_percent_tax_calculation(self)
     
     @staticmethod
     def get_telephone_number(telephone_number):
